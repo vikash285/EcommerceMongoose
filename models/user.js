@@ -18,12 +18,12 @@ class User {
 
   addToCart(product) {
     const cartProductIndex = this.cart.items.findIndex(cp => {
-      return cp._id.toString() === product._id.toString()
+      return cp.productId.toString() === product._id.toString()
     })
     let newQunatity = 1
     const updatedCartItems = [...this.cart.items]
 
-    if(cartProductIndex >=0 ) {
+    if(cartProductIndex >= 0 ) {
       newQunatity = this.cart.items[cartProductIndex].quantity + 1
       updatedCartItems[cartProductIndex].quantity = newQunatity
     } else {
@@ -83,7 +83,12 @@ class User {
 
   static findById(userId) {
     const db = getDb()
-    return db.collection('user').findOne({ _id: new ObjectId(userId) })
+    return db.collection('users').findOne({ _id: new ObjectId(userId) })
+    .then(user => {
+      console.log(user);
+      return user
+    })
+    .catch(err => console.log(err))
   }
 }
 
